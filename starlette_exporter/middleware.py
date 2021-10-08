@@ -46,12 +46,14 @@ class PrometheusMiddleware:
         self, app: ASGIApp, group_paths: bool = False, app_name: str = "starlette",
         prefix: str = "starlette", buckets: Optional[List[str]] = None,
         filter_unhandled_paths: bool = False,
+        skip_paths: Optional[List[str]] = None,
     ):
         self.app = app
         self.group_paths = group_paths
         self.app_name = app_name
         self.prefix = prefix
         self.filter_unhandled_paths = filter_unhandled_paths
+        self.skip_paths = skip_paths
         self.kwargs = {}
         if buckets is not None:
             self.kwargs['buckets'] = buckets
@@ -101,6 +103,11 @@ class PrometheusMiddleware:
 
         method = request.method
         path = request.url.path
+
+        if path in self.skip_paths:
+            await self.app(scope, receive, send)
+            return
+
         begin = time.perf_counter()
         end = None
 
