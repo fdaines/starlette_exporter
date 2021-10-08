@@ -53,10 +53,11 @@ class PrometheusMiddleware:
         self.app_name = app_name
         self.prefix = prefix
         self.filter_unhandled_paths = filter_unhandled_paths
-        self.skip_paths = skip_paths
         self.kwargs = {}
         if buckets is not None:
             self.kwargs['buckets'] = buckets
+        if skip_paths is not None:
+            self.skip_paths = skip_paths
 
     # Starlette initialises middleware multiple times, so store metrics on the class
     @property
