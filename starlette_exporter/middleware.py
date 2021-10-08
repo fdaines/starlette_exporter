@@ -56,6 +56,7 @@ class PrometheusMiddleware:
         self.kwargs = {}
         if buckets is not None:
             self.kwargs['buckets'] = buckets
+        self.skip_paths = []
         if skip_paths is not None:
             self.skip_paths = skip_paths
 
