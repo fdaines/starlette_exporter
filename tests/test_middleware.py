@@ -53,7 +53,7 @@ def testapp():
             return JSONResponse({"message": "task started"}, background=task)
 
         @app.route("/health")
-        def normal_response(request):
+        def healthcheck(request):
             return JSONResponse({"message": "Healthcheck route"})
 
         # testing routes added using Mount
